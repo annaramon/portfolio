@@ -12,6 +12,6 @@ text6 = "My desire to explore the world and learn about different cultures led m
 
 text7 = "When I came back to Europe, I joined the BCNatal Fetal Medicine Research Center developing the first artificial placenta in Europe."
 
-text8 = "I left academia and joined the industry, a startup called Made of Genes, where I worked on fusing multi-omic data to improve healthcare outcomes."
+text8 = "I left academia and joined the industry, a startup called Made of Genes - collaborating with FC Barcelona, where I worked on fusing multi-omic data to improve healthcare outcomes."
 
 text9 = "I moved to San Francisco, selected by Entrepreneur First - a global talent investor - to build my own company. This opportunity allowed me to combine my technical skills with my entrepreneurial spirit."
