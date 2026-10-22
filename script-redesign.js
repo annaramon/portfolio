@@ -1,6 +1,7 @@
 // ==========================================================================
-// Anna Ramon Hinojosa — Portfolio Interactions (Noetik-style redesign)
-// Reused verbatim from script.js — same IDs/classes, same behavior.
+// Anna Ramon Hinojosa — Portfolio Interactions
+// Nav/reveal/scroll behavior started from script.js; the story-stack
+// polaroid effect below is specific to this page.
 // ==========================================================================
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -79,43 +80,6 @@ document.addEventListener('DOMContentLoaded', () => {
       }
     });
   });
-
-  // ---- Counter animation ----
-  const counters = document.querySelectorAll('.impact-number[data-target]');
-
-  if (prefersReducedMotion) {
-    counters.forEach(el => {
-      el.textContent = el.getAttribute('data-target');
-    });
-  } else {
-    const counterObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const el = entry.target;
-          const target = parseInt(el.getAttribute('data-target'), 10);
-          if (isNaN(target)) return;
-          let current = 0;
-          const duration = 1800;
-          const step = target / (duration / 16);
-
-          const update = () => {
-            current += step;
-            if (current >= target) {
-              el.textContent = target;
-            } else {
-              el.textContent = Math.floor(current);
-              requestAnimationFrame(update);
-            }
-          };
-
-          requestAnimationFrame(update);
-          counterObserver.unobserve(el);
-        }
-      });
-    }, { threshold: 0.5 });
-
-    counters.forEach(c => counterObserver.observe(c));
-  }
 
   // ---- Active nav link highlighting (throttled, class-based) ----
   const sections = document.querySelectorAll('section[id]');
@@ -228,74 +192,5 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateProgress();
     render(progress);
-  })();
-
-  // ---- Impact numbers: animated sparkline per stat, domain-colored ----
-  (function impactPlots() {
-    const canvases = document.querySelectorAll('.impact-plot');
-    if (!canvases.length) return;
-
-    const colors = { teal: '#0fa68e', coral: '#ff6b4a', gold: '#e3b341', indigo: '#6d5bff' };
-
-    function renderPlot(canvas) {
-      const color = colors[canvas.getAttribute('data-color')] || colors.indigo;
-      const dpr = Math.min(window.devicePixelRatio || 1, 2);
-      const W = canvas.clientWidth, H = canvas.clientHeight;
-      canvas.width = W * dpr;
-      canvas.height = H * dpr;
-      const ctx = canvas.getContext('2d');
-      ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
-
-      const N = 28;
-      const seed = Math.random() * 1000;
-      const pts = [];
-      for (let i = 0; i < N; i++) {
-        const t = i / (N - 1);
-        const noise = Math.sin(t * 9 + seed) * 0.12 + Math.sin(t * 23 + seed) * 0.05;
-        const rise = Math.pow(t, 0.7);
-        pts.push(H * 0.85 - rise * H * 0.65 + noise * H * 0.18);
-      }
-
-      function drawUpTo(frac) {
-        ctx.clearRect(0, 0, W, H);
-        const count = Math.max(2, Math.round(N * frac));
-        ctx.beginPath();
-        for (let i = 0; i < count; i++) {
-          const x = (i / (N - 1)) * W;
-          if (i === 0) ctx.moveTo(x, pts[i]); else ctx.lineTo(x, pts[i]);
-        }
-        ctx.strokeStyle = color;
-        ctx.lineWidth = 1.6;
-        ctx.lineJoin = 'round';
-        ctx.lineCap = 'round';
-        ctx.shadowColor = color;
-        ctx.shadowBlur = 6;
-        ctx.stroke();
-        ctx.shadowBlur = 0;
-      }
-
-      if (prefersReducedMotion) { drawUpTo(1); return; }
-
-      let start = null;
-      const duration = 1100;
-      function frame(ts) {
-        if (!start) start = ts;
-        const p = Math.min(1, (ts - start) / duration);
-        drawUpTo(p);
-        if (p < 1) requestAnimationFrame(frame);
-      }
-      requestAnimationFrame(frame);
-    }
-
-    const plotObserver = new IntersectionObserver((entries) => {
-      entries.forEach((entry) => {
-        if (entry.isIntersecting) {
-          renderPlot(entry.target);
-          plotObserver.unobserve(entry.target);
-        }
-      });
-    }, { threshold: 0.4 });
-
-    canvases.forEach((c) => plotObserver.observe(c));
   })();
 });
