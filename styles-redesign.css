@@ -513,13 +513,14 @@ a { color: inherit; }
 
 /* base4bio.com/manifesto-style numbering: a big leading "01", "02"... set
    entirely by CSS counters, so the index always matches document order
-   with no hardcoded numbers to keep in sync by hand. */
+   with no hardcoded numbers to keep in sync by hand. Plain neutral numeral
+   and divider — domain color stays confined to the tags below, where it
+   reads as a small label rather than a dominant typographic element. */
 .timeline-item {
   position: relative;
   counter-increment: timeline-index;
   padding: 2.2rem 0 2.2rem 5.5rem;
   border-top: 1px solid var(--border);
-  border-left: 2px solid transparent;
 }
 .timeline-item::before {
   content: counter(timeline-index, decimal-leading-zero);
@@ -534,10 +535,6 @@ a { color: inherit; }
 }
 .timeline:first-of-type .timeline-item:first-child { border-top: none; }
 
-.timeline-item.accent-teal { border-left-color: var(--teal); }
-.timeline-item.accent-coral { border-left-color: var(--coral); }
-.timeline-item.accent-gold { border-left-color: var(--gold); }
-.timeline-item.accent-indigo { border-left-color: var(--indigo); }
 .timeline-item-upcoming { opacity: .88; }
 
 .timeline-header {
@@ -725,16 +722,29 @@ a { color: inherit; }
   margin-top: 2.5rem;
   display: flex;
   flex-direction: column;
+  counter-reset: event-index;
 }
 
+/* Same numbered treatment as the Experience timeline — plain neutral
+   numeral, domain color stays confined to the tags below. */
 .event-row {
-  padding: 2rem 0 2rem 1.5rem;
+  position: relative;
+  counter-increment: event-index;
+  padding: 2rem 0 2rem 5.5rem;
   border-top: 1px solid var(--border);
-  border-left: 2px solid transparent;
+}
+.event-row::before {
+  content: counter(event-index, decimal-leading-zero);
+  position: absolute;
+  left: 1.5rem;
+  top: 2rem;
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 1.7rem;
+  letter-spacing: -.02em;
+  color: var(--text-soft);
 }
 .events-list .event-row:first-child { border-top: none; }
-.event-row.accent-teal { border-left-color: var(--teal); }
-.event-row.accent-coral { border-left-color: var(--coral); }
 
 .event-header {
   display: flex;
@@ -926,6 +936,8 @@ a { color: inherit; }
 
   .timeline-item { padding-left: 3.6rem; }
   .timeline-item::before { left: .9rem; font-size: 1.3rem; }
+  .event-row { padding-left: 3.6rem; }
+  .event-row::before { left: .9rem; font-size: 1.3rem; }
 
   .section { padding: 4.5rem 0; }
 }
