@@ -34,6 +34,29 @@ html {
   -webkit-font-smoothing: antialiased;
 }
 
+/* Everything after the story (Trusted By → Footer) runs on a light theme,
+   inspired by base4bio.com/manifesto — same component CSS throughout the
+   file, just a different set of tokens for this one wrapped region. Every
+   rule elsewhere already reads color from var(--bg)/var(--text)/etc., so
+   overriding them here is enough; nothing per-section needed its own fix.
+   The domain accents (teal/coral/gold/indigo) get darker, AA-safe variants
+   here too — the originals were tuned for text-on-black, not text-on-white. */
+.light-section {
+  --bg: #f5f4f1;
+  --bg-raised: #ebe9e4;
+  --text: #1c1c1c;
+  --text-soft: #6b6b6b;
+  --border: rgba(0, 0, 0, 0.12);
+
+  --indigo: #4f46e5;
+  --teal: #0f766e;
+  --coral: #c2410c;
+  --gold: #92700a;
+
+  background: var(--bg);
+  color: var(--text);
+}
+
 body {
   background: var(--bg);
   color: var(--text);
@@ -338,8 +361,8 @@ a { color: inherit; }
 .statement-sm {
   font-family: var(--sans);
   font-weight: 500;
-  font-size: 1.15rem;
-  letter-spacing: -.01em;
+  font-size: clamp(1.2rem, 2vw, 1.5rem);
+  letter-spacing: -.015em;
   color: var(--text);
   margin: .85rem 0 .5rem;
 }
@@ -422,11 +445,13 @@ a { color: inherit; }
   height: 32px;
   width: auto;
   object-fit: contain;
-  filter: grayscale(1) brightness(1.7) contrast(0.9);
-  opacity: .55;
+  /* grayscale silhouettes read dark-on-light now that this section sits
+     in .light-section — no brightness boost needed like the black-bg version. */
+  filter: grayscale(1) contrast(1.1);
+  opacity: .5;
   transition: opacity .25s ease;
 }
-.trusted-logos img:hover { opacity: .9; }
+.trusted-logos img:hover { opacity: .85; }
 
 /* ==========================================================================
    Impact numbers
@@ -483,12 +508,29 @@ a { color: inherit; }
   margin-top: 2.5rem;
   display: flex;
   flex-direction: column;
+  counter-reset: timeline-index;
 }
 
+/* base4bio.com/manifesto-style numbering: a big leading "01", "02"... set
+   entirely by CSS counters, so the index always matches document order
+   with no hardcoded numbers to keep in sync by hand. */
 .timeline-item {
-  padding: 2.2rem 0 2.2rem 1.5rem;
+  position: relative;
+  counter-increment: timeline-index;
+  padding: 2.2rem 0 2.2rem 5.5rem;
   border-top: 1px solid var(--border);
   border-left: 2px solid transparent;
+}
+.timeline-item::before {
+  content: counter(timeline-index, decimal-leading-zero);
+  position: absolute;
+  left: 1.5rem;
+  top: 2.3rem;
+  font-family: var(--sans);
+  font-weight: 300;
+  font-size: 1.7rem;
+  letter-spacing: -.02em;
+  color: var(--text-soft);
 }
 .timeline:first-of-type .timeline-item:first-child { border-top: none; }
 
@@ -881,6 +923,9 @@ a { color: inherit; }
   .stack-group { grid-template-columns: 1fr; gap: .4rem; }
 
   .beyond-grid { grid-template-columns: 1fr; gap: 2rem; }
+
+  .timeline-item { padding-left: 3.6rem; }
+  .timeline-item::before { left: .9rem; font-size: 1.3rem; }
 
   .section { padding: 4.5rem 0; }
 }
