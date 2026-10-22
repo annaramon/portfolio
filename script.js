@@ -1,5 +1,7 @@
 // ==========================================================================
 // Anna Ramon Hinojosa — Portfolio Interactions
+// Nav/reveal/scroll behavior started from script.js; the story-stack
+// polaroid effect below is specific to this page.
 // ==========================================================================
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -79,43 +81,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   });
 
-  // ---- Counter animation ----
-  const counters = document.querySelectorAll('.impact-number[data-target]');
-
-  if (prefersReducedMotion) {
-    counters.forEach(el => {
-      el.textContent = el.getAttribute('data-target');
-    });
-  } else {
-    const counterObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const el = entry.target;
-          const target = parseInt(el.getAttribute('data-target'), 10);
-          if (isNaN(target)) return;
-          let current = 0;
-          const duration = 1800;
-          const step = target / (duration / 16);
-
-          const update = () => {
-            current += step;
-            if (current >= target) {
-              el.textContent = target;
-            } else {
-              el.textContent = Math.floor(current);
-              requestAnimationFrame(update);
-            }
-          };
-
-          requestAnimationFrame(update);
-          counterObserver.unobserve(el);
-        }
-      });
-    }, { threshold: 0.5 });
-
-    counters.forEach(c => counterObserver.observe(c));
-  }
-
   // ---- Active nav link highlighting (throttled, class-based) ----
   const sections = document.querySelectorAll('section[id]');
   const navLinks = document.querySelectorAll('.nav-links a[href^="#"]');
@@ -134,4 +99,98 @@ document.addEventListener('DOMContentLoaded', () => {
   }, 100);
 
   window.addEventListener('scroll', highlightNav, { passive: true });
+
+  // ---- Story: nine polaroids slide up from below and stack, one per ----
+  // ---- equal segment of this section's scroll range, each paired     ----
+  // ---- with a caption that crossfades in sync, and a title card      ----
+  // ---- ("Anna Ramon Hinojosa") that dissolves as photo 1 arrives     ----
+  (function storyStack() {
+    const zone = document.querySelector('.story-zone');
+    const photos = Array.from(document.querySelectorAll('.polaroid'));
+    const captionContainer = document.getElementById('storyCaption');
+    const storyMark = document.getElementById('storyMark');
+    if (!zone || !photos.length) return;
+
+    const N = photos.length;
+    const ENTER_VH = 0.8; // how far below the resting spot each photo starts
+
+    // Captions come from texts.js (text1..text9 as plain globals, one per
+    // photo in order) — nothing is hardcoded here. Built once, at startup,
+    // by reading window.textN for N = 1..photos.length.
+    const captions = [];
+    if (captionContainer) {
+      for (let i = 0; i < N; i++) {
+        const text = window[`text${i + 1}`];
+        if (typeof text !== 'string') {
+          console.warn(`texts.js is missing "text${i + 1}" — caption ${i + 1} will be blank.`);
+        }
+        const p = document.createElement('p');
+        p.className = 'story-caption-item';
+        p.dataset.index = String(i);
+        p.textContent = text || '';
+        captionContainer.appendChild(p);
+        captions.push(p);
+      }
+    }
+
+    function easeOutCubic(t) { return 1 - Math.pow(1 - t, 3); }
+
+    function render(progress) {
+      const enterPx = window.innerHeight * ENTER_VH;
+      const g = progress * N;
+      const locals = photos.map((_, i) => Math.max(0, Math.min(1, g - i)));
+
+      photos.forEach((el, i) => {
+        const eased = easeOutCubic(locals[i]);
+        const ox = parseFloat(el.dataset.ox) || 0;
+        const oy = parseFloat(el.dataset.oy) || 0;
+        const rot = parseFloat(el.dataset.rot) || 0;
+        const y = oy + (1 - eased) * enterPx;
+        el.style.transform = `translate(${ox}px, ${y}px) rotate(${rot}deg)`;
+        el.style.zIndex = String(i + 1);
+      });
+
+      // Captions swap sequentially, never blended: the previous caption
+      // fades fully to 0 over the first half of the new photo's arrival,
+      // then the new caption fades in over the second half. No two
+      // captions are ever simultaneously legible, so the text never
+      // overlaps itself mid-transition.
+      const currentIndex = Math.max(0, Math.min(N - 1, Math.floor(g)));
+      const frac = Math.max(0, Math.min(1, g - currentIndex));
+      const outPhase = Math.min(1, frac / 0.5);
+      const inPhase = Math.max(0, Math.min(1, (frac - 0.5) / 0.5));
+
+      captions.forEach((el, i) => {
+        let opacity = 0;
+        if (i === currentIndex) opacity = inPhase;
+        else if (i === currentIndex - 1) opacity = 1 - outPhase;
+        el.style.opacity = String(opacity);
+      });
+
+      if (storyMark) {
+        storyMark.style.opacity = String(1 - easeOutCubic(locals[0]));
+      }
+    }
+
+    if (prefersReducedMotion) {
+      render(1); // all nine already stacked at rest, no scroll-jacked motion
+      return;
+    }
+
+    let progress = 0;
+    function updateProgress() {
+      const rect = zone.getBoundingClientRect();
+      const scrollable = rect.height - window.innerHeight;
+      progress = scrollable <= 0 ? 0 : Math.max(0, Math.min(1, -rect.top / scrollable));
+    }
+
+    window.addEventListener('scroll', () => {
+      updateProgress();
+      render(progress);
+    }, { passive: true });
+    window.addEventListener('resize', () => render(progress), { passive: true });
+
+    updateProgress();
+    render(progress);
+  })();
 });
