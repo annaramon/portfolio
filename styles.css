@@ -410,6 +410,7 @@ a { color: inherit; }
 .experience-zone {
   position: relative;
   height: 540vh; /* 6 transitions between 7 roles × 90vh of scroll each */
+  background: var(--bg-raised); /* same shift as .how-i-work, so the handoff from Recognition reads as a new section */
 }
 
 .experience-sticky {

@@ -9,9 +9,9 @@ var text2 = "I started competing in alpine skiing at 6. Most of my childhood was
 
 var text3 = "I became vice-champion of Spain in alpine skiing.";
 
-var text4 = "I got a full scholarship to study Data Science and Engineering at UPC";
+var text4 = "I got a full scholarship to study Data Science and Engineering at UPC.";
 
-var text5 = "During my time at university, I collaborated with Roche discovering new biomarkers for early detection of Alzheimer's disease. Here started my obsession with making precision medicine for everyone";
+var text5 = "During my time at university, I collaborated with Roche discovering new biomarkers for early detection of Alzheimer's disease. Here started my obsession with making precision medicine for everyone.";
 
 var text6 = "My desire to explore the world and learn about different cultures led me to live in South America for half a year. This experience broadened my perspective and fueled my passion for global health initiatives.";
 
