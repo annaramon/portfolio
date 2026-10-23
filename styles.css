@@ -141,12 +141,13 @@ a { color: inherit; }
 }
 .nav-links a:hover, .nav-links a.active { color: var(--text); }
 
-.nav-cta {
-  border: 1px solid var(--border);
+.nav-links .nav-cta {
+  background: var(--text);
+  color: var(--bg);
   padding: .5rem .9rem;
   border-radius: 2px;
 }
-.nav-cta:hover { border-color: var(--text-soft); }
+.nav-links .nav-cta:hover { background: var(--text-soft); }
 
 .nav-toggle {
   display: none;
@@ -242,12 +243,23 @@ a { color: inherit; }
   text-align: center;
   margin: 0;
   pointer-events: none;
+}
+
+.story-mark-title {
   font-family: var(--sans);
   font-weight: 500;
   font-size: clamp(1.9rem, 5.4vw, 3.6rem);
   line-height: 1.05;
   letter-spacing: -.02em;
   color: var(--text);
+}
+
+.story-mark-tagline {
+  margin-top: .9rem;
+  font-family: var(--mono);
+  font-size: clamp(.8rem, 1.6vw, 1rem);
+  letter-spacing: .02em;
+  color: var(--text-soft);
 }
 
 .story-layout {
@@ -446,13 +458,16 @@ a { color: inherit; }
   overflow: hidden;
 }
 
+/* justify-content: flex-start (not center) so every entry starts at the
+   same spot regardless of length — centering left short entries (fewer
+   bullets, no body) floating in a lot of empty space. */
 .timeline-item {
   position: absolute;
   inset: 0;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  padding: 1rem 1.5rem 2.5rem;
+  justify-content: flex-start;
+  padding: 4rem 1.5rem 2.5rem;
   overflow-y: auto;
   will-change: transform;
 }
@@ -682,12 +697,14 @@ a { color: inherit; }
   overflow: hidden;
 }
 
+/* align-items: flex-start (not center) so every entry starts at the same
+   spot regardless of length — same fix as .timeline-item above. */
 .event-row {
   position: absolute;
   inset: 0;
   display: flex;
-  align-items: center;
-  padding: 1rem 1.5rem 2.5rem;
+  align-items: flex-start;
+  padding: 4rem 1.5rem 2.5rem;
   overflow-y: auto;
   will-change: transform;
 }
