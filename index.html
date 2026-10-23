@@ -35,10 +35,10 @@
   <nav class="nav" id="nav" aria-label="Main navigation">
     <div class="nav-inner">
       <div class="nav-links">
+        <a href="#recognition">Recognition</a>
         <a href="#experience">Experience</a>
         <a href="#skills">Skills</a>
         <a href="#education">Education</a>
-        <a href="#events">Events</a>
         <a href="#contact" class="nav-cta">Get in touch</a>
       </div>
       <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="mobileMenu">
@@ -49,10 +49,10 @@
 
   <!-- Mobile Menu -->
   <div class="mobile-menu" id="mobileMenu" role="navigation" aria-label="Mobile navigation">
+    <a href="#recognition">Recognition</a>
     <a href="#experience">Experience</a>
     <a href="#skills">Skills</a>
     <a href="#education">Education</a>
-    <a href="#events">Events</a>
     <a href="#contact">Get in touch</a>
   </div>
 
@@ -119,15 +119,106 @@
     </div>
   </section>
 
-  <!-- Experience -->
-  <section class="experience section" id="experience">
-    <div class="container">
-      <h2 class="section-label reveal"><span class="pulse-dot" aria-hidden="true"></span>What I've Built</h2>
-      <p class="section-intro reveal">Production systems, real users, measurable outcomes.</p>
+  <!-- Recognition: same one-at-a-time horizontal carousel mechanic as
+       Experience below — placed here, right after Trusted By, since this
+       is the credibility/awards section, ahead of the detailed work
+       history. -->
+  <section class="recognition-zone" id="recognition">
+    <div class="recognition-sticky">
+      <div class="container recognition-head">
+        <h2 class="section-label reveal"><span class="pulse-dot" aria-hidden="true"></span>Recognition</h2>
+        <p class="section-intro reveal">Sharing knowledge, building community.</p>
+      </div>
 
-      <div class="timeline">
+      <div class="container recognition-stage" id="recognitionStage">
 
-        <div class="timeline-item reveal timeline-item-upcoming">
+        <div class="event-row">
+          <div class="event-layout">
+            <div class="event-media">
+              <img src="photos/presenting-isokinetic.JPG" alt="Presenting research on stage at the Isokinetic World Congress on Sports Medicine." loading="lazy">
+            </div>
+            <div class="event-content">
+              <div class="event-header">
+                <span class="event-type">Conference</span>
+                <span class="event-date-badge">April 2026</span>
+              </div>
+              <h3 class="event-title">Isokinetic Medical Group. World Congress on Sports Medicine</h3>
+              <p class="event-body">Presenting two research projects at the world's leading sports medicine congress:</p>
+              <ul class="event-projects">
+                <li><strong>Polygenic Risk Score for Hamstring Tendon Rupture in Elite Male Football Players</strong> — ML model that quantifies genetic risk of hamstring rupture in professional athletes.</li>
+                <li><strong>A Multimodal Digital Twin for Injury Risk Prediction in Elite Female Football</strong> — multimodal model integrating GPS, biovalues, and genetics data for injury prevention.</li>
+              </ul>
+              <p class="event-award"><strong>Best Women's Football Abstract</strong>. Peer-review award <a href="https://www.linkedin.com/feed/update/urn:li:activity:7452391413759029248/" target="_blank" rel="noopener">Award Publication — Barça Innovation Hub →</a></p>
+              <div class="event-tags">
+                <span class="tag tag-teal">#Isokinetic2026</span>
+                <span class="tag tag-teal">#SportsMedicine</span>
+                <span class="tag tag-teal">#GeneticRisk</span>
+                <span class="tag tag-teal">#DigitalTwin</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="event-row">
+          <div class="event-layout">
+            <div class="event-media">
+              <img src="photos/widsbcn.jpeg" alt="Standing beside the research poster at the 3rd Women in Data Science Barcelona conference." loading="lazy">
+            </div>
+            <div class="event-content">
+              <div class="event-header">
+                <span class="event-type">Conference</span>
+                <span class="event-date-badge">2024</span>
+              </div>
+              <h3 class="event-title">3rd Women in Data Science Barcelona. Biomedicine</h3>
+              <p class="event-body">Presented research on the <strong>Intelligent Assistant System</strong> developed for ICU teams within the BCNatal CaixaResearch Artificial Placenta project. The system provides real-time decision support for clinical staff, significantly reducing human error and accelerating critical workflows.</p>
+              <p class="event-note">An inspiring event celebrating the contributions of women in STEM and healthcare, advancing a future where data and AI enhance healthcare for all.</p>
+              <div class="event-tags">
+                <span class="tag tag-coral">#WiDSBarcelona</span>
+                <span class="tag tag-coral">#AIinHealthcare</span>
+                <span class="tag tag-coral">#WomenInSTEM</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="event-row">
+          <div class="event-layout">
+            <div class="event-media">
+              <img src="photos/mwc.jpg" alt="On stage at MWC26, with the Made of Genes platform and FC Barcelona branding displayed behind the panel." loading="lazy">
+            </div>
+            <div class="event-content">
+              <div class="event-header">
+                <span class="event-type">Masterclass</span>
+                <span class="event-date-badge">2025</span>
+              </div>
+              <h3 class="event-title">Johan Cruyff Institute. Masterclass for Escuela Nacional del Deporte (Colombia)</h3>
+              <p class="event-body">Delivered a Masterclass at the Johan Cruyff Institute in Barcelona to students from Colombia's <strong>Escuela Nacional del Deporte</strong>, explaining how <strong>AI drives injury prevention and performance optimization</strong> through data analysis. A session connecting science, sports, and innovation.</p>
+              <a href="https://www.linkedin.com/feed/update/urn:li:activity:7392180204124913665/" target="_blank" rel="noopener" class="event-link">View post →</a>
+              <div class="event-tags">
+                <span class="tag tag-teal">#CruyffLegacy</span>
+                <span class="tag tag-teal">#DataScience</span>
+                <span class="tag tag-teal">#SportsAI</span>
+                <span class="tag tag-teal">#ENDEPORTE</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Experience: one role at a time, pinned — scrolling slides the next
+       one in from the right as the current one exits left. -->
+  <section class="experience-zone" id="experience">
+    <div class="experience-sticky">
+      <div class="container experience-head">
+        <h2 class="section-label reveal"><span class="pulse-dot" aria-hidden="true"></span>What I've Built</h2>
+        <p class="section-intro reveal">Production systems, real users, measurable outcomes.</p>
+      </div>
+
+      <div class="container experience-stage" id="experienceStage">
+
+        <div class="timeline-item timeline-item-upcoming">
           <div class="timeline-header">
             <div>
               <h3 class="timeline-role">The Bridge S26</h3>
@@ -140,7 +231,7 @@
           <p class="timeline-body">Accepted into <strong>Entrepreneurs First's The Bridge</strong>. One of the world's most selective talent investor programs, bringing together exceptional technical founders to build companies from scratch. Backed by founders including Patrick and John Collison, Reid Hoffman, Tom Blomfield, Sara Clemens, and Nat Friedman. I lived in a hacker house in San Francisco with 60 other founders. </p>
         </div>
 
-        <div class="timeline-item reveal">
+        <div class="timeline-item">
           <div class="timeline-header">
             <div>
               <h3 class="timeline-role">AI/ML Engineer</h3>
@@ -150,19 +241,20 @@
           </div>
           <p class="timeline-focus">Health Optimization</p>
           <p class="statement-sm">Multi-Omic Data for Precision Medicine applied to sports performance.</p>
-          <p class="timeline-body">Predicting injuries before it happen. 53% boost in detection sensitivity, enabling earlier interventions that directly protect athletes. Collaborating with <strong>FC Barcelona</strong> and top European clubs fusing wearable, GPS, biomarker, and genetics data.</p>
+          <p class="timeline-body">Collaborating with <strong>FC Barcelona</strong> and top European clubs fusing wearable, GPS, biomarker, and genetics data.</p>
           <ul class="timeline-bullets">
-            <li>Owned the full journey: from raw, noisy multimodal data, deciding what was <strong>viable to build from it</strong>, to ML systems now used daily by medical staff across 4+ elite clubs.</li>
-            <li>Designed feature pipelines for noisy, multi-source time-series data, deciding <strong>what signal was worth extracting</strong> and what wasn't.</li>
-            <li>Owned the full model lifecycle on <strong>Databricks</strong>: from experimentation to production serving.</li>
             <li>Defined what the product could and couldn't say, translating model confidence and data limitations into <strong>output decisions that medical staff could trust</strong> and act on.</li>
+            <li>Lead the team developing a "Multi-modal Digital Twin for Injury-Risk Prediction".</li>
+            <li>Owned the full journey: from raw, noisy multi-omic data, deciding what was <strong>viable to build from it</strong>, to ML systems now used daily by medical staff across 4+ elite clubs.</li>
+            <li>Designed feature pipelines for multi-source time-series data, deciding <strong>what signal was worth extracting</strong> and what wasn't.</li>
+            <li>Owned the full model lifecycle on <strong>Databricks</strong>: from experimentation to production serving.</li>
           </ul>
           <div class="timeline-tags">
             <span class="tag tag-teal">Deep Learning</span><span class="tag tag-teal">Databricks</span><span class="tag tag-teal">Time Series</span><span class="tag tag-teal">Wearables</span><span class="tag tag-teal">Sports Science</span><span class="tag tag-teal">Product Definition</span>
           </div>
         </div>
 
-        <div class="timeline-item reveal">
+        <div class="timeline-item">
           <div class="timeline-header">
             <div>
               <h3 class="timeline-role">Research Data Scientist</h3>
@@ -183,7 +275,7 @@
           </div>
         </div>
 
-        <div class="timeline-item reveal">
+        <div class="timeline-item">
           <div class="timeline-header">
             <div>
               <h3 class="timeline-role">Data Scientist</h3>
@@ -203,7 +295,7 @@
           </div>
         </div>
 
-        <div class="timeline-item reveal">
+        <div class="timeline-item">
           <div class="timeline-header">
             <div>
               <h3 class="timeline-role">Sports Analytics Postgraduate Teacher</h3>
@@ -222,7 +314,7 @@
           </div>
         </div>
 
-        <div class="timeline-item reveal">
+        <div class="timeline-item">
           <div class="timeline-header">
             <div>
               <h3 class="timeline-role">Associate Professor / Technical Mentor</h3>
@@ -241,7 +333,7 @@
           </div>
         </div>
 
-        <div class="timeline-item reveal">
+        <div class="timeline-item">
           <div class="timeline-header">
             <div>
               <h3 class="timeline-role">Full-Stack Developer</h3>
@@ -357,67 +449,6 @@
     </div>
   </section>
 
-  <!-- Events & Talks -->
-  <section class="events section" id="events">
-    <div class="container">
-      <h2 class="section-label reveal"><span class="pulse-dot" aria-hidden="true"></span>Events & Talks</h2>
-      <p class="section-intro reveal">Sharing knowledge, building community.</p>
-
-      <div class="events-list">
-        <div class="event-row reveal">
-          <div class="event-header">
-            <span class="event-type">Conference</span>
-            <span class="event-date-badge">April 2026</span>
-          </div>
-          <h3 class="event-title">Isokinetic Medical Group. World Congress on Sports Medicine</h3>
-          <p class="event-body">Presenting two research projects at the world's leading sports medicine congress:</p>
-          <ul class="event-projects">
-            <li><strong>Polygenic Risk Score for Hamstring Tendon Rupture in Elite Male Football Players</strong> — ML model that quantifies genetic risk of hamstring rupture in professional athletes.</li>
-            <li><strong>A Multimodal Digital Twin for Injury Risk Prediction in Elite Female Football</strong> — multimodal model integrating GPS, biovalues, and genetics data for injury prevention.</li>
-          </ul>
-          <p class="event-award"><strong>Best Women's Football Abstract</strong>. Peer-review award <a href="https://www.linkedin.com/feed/update/urn:li:activity:7452391413759029248/" target="_blank" rel="noopener">Award Publication — Barça Innovation Hub →</a></p>
-          <div class="event-tags">
-            <span class="tag tag-teal">#Isokinetic2026</span>
-            <span class="tag tag-teal">#SportsMedicine</span>
-            <span class="tag tag-teal">#GeneticRisk</span>
-            <span class="tag tag-teal">#DigitalTwin</span>
-          </div>
-        </div>
-
-        <div class="event-row reveal">
-          <div class="event-header">
-            <span class="event-type">Conference Talk</span>
-            <span class="event-date-badge">2024</span>
-          </div>
-          <h3 class="event-title">3rd Women in Data Science Barcelona. Biomedicine</h3>
-          <p class="event-body">Presented research on the <strong>Intelligent Assistant System</strong> developed for ICU teams within the BCNatal CaixaResearch Artificial Placenta project. The system provides real-time decision support for clinical staff, significantly reducing human error and accelerating critical workflows.</p>
-          <p class="event-note">An inspiring event celebrating the contributions of women in STEM and healthcare — advancing a future where data and AI enhance healthcare for all.</p>
-          <div class="event-tags">
-            <span class="tag tag-coral">#WiDSBarcelona</span>
-            <span class="tag tag-coral">#AIinHealthcare</span>
-            <span class="tag tag-coral">#WomenInSTEM</span>
-          </div>
-        </div>
-
-        <div class="event-row reveal">
-          <div class="event-header">
-            <span class="event-type">Masterclass</span>
-            <span class="event-date-badge">2025</span>
-          </div>
-          <h3 class="event-title">Johan Cruyff Institute. Masterclass for Escuela Nacional del Deporte (Colombia)</h3>
-          <p class="event-body">Delivered a Masterclass at the Johan Cruyff Institute in Barcelona to students from Colombia's <strong>Escuela Nacional del Deporte</strong>, explaining how <strong>AI drives injury prevention and performance optimization</strong> through data analysis. A session connecting science, sports, and innovation.</p>
-          <a href="https://www.linkedin.com/feed/update/urn:li:activity:7392180204124913665/" target="_blank" rel="noopener" class="event-link">View post →</a>
-          <div class="event-tags">
-            <span class="tag tag-teal">#CruyffLegacy</span>
-            <span class="tag tag-teal">#DataScience</span>
-            <span class="tag tag-teal">#SportsAI</span>
-            <span class="tag tag-teal">#ENDEPORTE</span>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
   <!-- Beyond the Code -->
   <section class="beyond section" id="beyond">
     <div class="container">
@@ -458,7 +489,7 @@
   <section class="contact section" id="contact">
     <div class="container">
       <h2 class="section-label reveal"><span class="pulse-dot" aria-hidden="true"></span>Let's Connect</h2>
-      <p class="contact-intro reveal">I'm looking for my next big challenge — building at the intersection of AI, health, and human performance. If you're working on something ambitious, especially in the US or EU startup ecosystem, I'd love to talk.</p>
+      <p class="contact-intro reveal">I'm looking for my next big challenge, building at the intersection of AI, health, and human performance. If you're working on something ambitious, especially in the US or EU startup ecosystem, I'd love to talk.</p>
 
       <div class="contact-grid reveal">
         <a href="mailto:annaramonhinojosa@gmail.com" class="contact-row">

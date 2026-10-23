@@ -400,39 +400,61 @@ a { color: inherit; }
 .trusted-logos img:hover { opacity: .85; }
 
 /* ==========================================================================
-   Experience / Timeline
+   Experience — one role pinned on screen at a time; scrolling slides the
+   current one out to the left as the next slides in from the right (same
+   scroll-driven-progress technique as the Story section, just mapped to a
+   horizontal swap instead of a vertical stack). No numbering — the role
+   title and company are what identify each one.
    ========================================================================== */
 
-.timeline {
-  margin-top: 2.5rem;
-  display: flex;
-  flex-direction: column;
-  counter-reset: timeline-index;
+.experience-zone {
+  position: relative;
+  height: 540vh; /* 6 transitions between 7 roles × 90vh of scroll each */
 }
 
-/* base4bio.com/manifesto-style numbering: a big leading "01", "02"... set
-   entirely by CSS counters, so the index always matches document order
-   with no hardcoded numbers to keep in sync by hand. Plain neutral numeral
-   and divider — domain color stays confined to the tags below, where it
-   reads as a small label rather than a dominant typographic element. */
-.timeline-item {
+.experience-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.experience-head {
+  flex: none;
+  width: 100%;
+  padding: 6rem 1.5rem 1.5rem;
+}
+
+/* width:100% is load-bearing here: .container's margin:0 auto disables
+   this flex item's default stretch, and since its only children are
+   position:absolute (the slides), none of them are in normal flow to
+   size it — without an explicit width it collapses to just its own
+   padding. */
+.experience-stage {
   position: relative;
-  counter-increment: timeline-index;
-  padding: 2.2rem 0 2.2rem 5.5rem;
-  border-top: 1px solid var(--border);
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  /* Parked slides sit at translateX(±100%) of their OWN width (920px max),
+     not the viewport's — on a wide screen that's less than the distance
+     to the viewport edge, so without clipping here (not just on the outer
+     .experience-sticky, which is viewport-wide) a sliver of the parked
+     slide's left-aligned text peeks in at the edge. */
+  overflow: hidden;
 }
-.timeline-item::before {
-  content: counter(timeline-index, decimal-leading-zero);
+
+.timeline-item {
   position: absolute;
-  left: 1.5rem;
-  top: 2.3rem;
-  font-family: var(--sans);
-  font-weight: 300;
-  font-size: 1.7rem;
-  letter-spacing: -.02em;
-  color: var(--text-soft);
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  padding: 1rem 1.5rem 2.5rem;
+  overflow-y: auto;
+  will-change: transform;
 }
-.timeline:first-of-type .timeline-item:first-child { border-top: none; }
 
 .timeline-item-upcoming { opacity: .88; }
 
@@ -515,6 +537,11 @@ a { color: inherit; }
 /* ==========================================================================
    How I Work / Skills
    ========================================================================== */
+
+/* A quiet background shift marks the handoff from the Experience carousel
+   into a normal-scrolling section again — the same device already used for
+   "What's Next" (.whats-next), just applied one section earlier too. */
+.how-i-work { background: var(--bg-raised); }
 
 .work-grid {
   margin-top: 2.5rem;
@@ -614,36 +641,75 @@ a { color: inherit; }
 .cert-org { color: var(--text-soft); font: .8rem var(--mono); }
 
 /* ==========================================================================
-   Events & Talks
+   Events & Talks — same one-at-a-time horizontal carousel as Experience,
+   no numbering, scrolling slides the current one out left as the next
+   slides in from the right.
    ========================================================================== */
 
-.events-list {
-  margin-top: 2.5rem;
-  display: flex;
-  flex-direction: column;
-  counter-reset: event-index;
+.recognition-zone {
+  position: relative;
+  height: 180vh; /* 2 transitions between 3 events × 90vh of scroll each */
 }
 
-/* Same numbered treatment as the Experience timeline — plain neutral
-   numeral, domain color stays confined to the tags below. */
-.event-row {
+.recognition-sticky {
+  position: sticky;
+  top: 0;
+  height: 100vh;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+.recognition-head {
+  flex: none;
+  width: 100%;
+  padding: 6rem 1.5rem 1.5rem;
+}
+
+/* Same width/overflow notes as .experience-stage: width:100% is load-
+   bearing (margin:0 auto from .container disables this flex item's
+   stretch, and its only children are position:absolute so none are
+   in-flow to size it by), and overflow:hidden clips parked slides —
+   otherwise a sliver of a parked slide's text peeks in at the edge,
+   since translateX(100%) moves it by its own 920px-max width, not all
+   the way to the viewport edge on wide screens. */
+.recognition-stage {
   position: relative;
-  counter-increment: event-index;
-  padding: 2rem 0 2rem 5.5rem;
-  border-top: 1px solid var(--border);
+  flex: 1;
+  min-height: 0;
+  width: 100%;
+  overflow: hidden;
 }
-.event-row::before {
-  content: counter(event-index, decimal-leading-zero);
+
+.event-row {
   position: absolute;
-  left: 1.5rem;
-  top: 2rem;
-  font-family: var(--sans);
-  font-weight: 300;
-  font-size: 1.7rem;
-  letter-spacing: -.02em;
-  color: var(--text-soft);
+  inset: 0;
+  display: flex;
+  align-items: center;
+  padding: 1rem 1.5rem 2.5rem;
+  overflow-y: auto;
+  will-change: transform;
 }
-.events-list .event-row:first-child { border-top: none; }
+
+/* Photo beside the text for each event — stacks on narrow screens. */
+.event-layout {
+  display: flex;
+  align-items: flex-start;
+  gap: 2.5rem;
+  width: 100%;
+}
+.event-media {
+  flex: none;
+  width: clamp(170px, 26vw, 260px);
+}
+.event-media img {
+  width: 100%;
+  aspect-ratio: 3 / 4;
+  object-fit: cover;
+  border-radius: 4px;
+  display: block;
+}
+.event-content { flex: 1; min-width: 0; }
 
 .event-header {
   display: flex;
@@ -828,10 +894,13 @@ a { color: inherit; }
 
   .beyond-grid { grid-template-columns: 1fr; gap: 2rem; }
 
-  .timeline-item { padding-left: 3.6rem; }
-  .timeline-item::before { left: .9rem; font-size: 1.3rem; }
-  .event-row { padding-left: 3.6rem; }
-  .event-row::before { left: .9rem; font-size: 1.3rem; }
+  .experience-head { padding: 5.5rem 1.25rem 1rem; }
+  .timeline-item { padding: .5rem 1.25rem 2rem; }
+
+  .recognition-head { padding: 5.5rem 1.25rem 1rem; }
+  .event-row { padding: .5rem 1.25rem 2rem; align-items: flex-start; }
+  .event-layout { flex-direction: column; gap: 1rem; }
+  .event-media { width: 100%; max-width: 220px; }
 
   .section { padding: 4.5rem 0; }
 }
@@ -846,4 +915,33 @@ a { color: inherit; }
   html { scroll-behavior: auto; }
   .story-zone { height: auto; min-height: 100vh; padding: 4rem 0; }
   .story-sticky { position: relative; top: auto; height: auto; }
+
+  /* No scroll-jacked carousel for reduced motion — fall back to a plain
+     stacked list so everything is readable without needing precise scroll
+     control. */
+  .experience-zone { height: auto; }
+  .experience-sticky { position: relative; top: auto; height: auto; display: block; }
+  .experience-head { padding: 0 1.5rem; }
+  .experience-stage { position: static; }
+  .timeline-item {
+    position: static;
+    transform: none !important;
+    overflow-y: visible;
+    padding: 2rem 0;
+    border-top: 1px solid var(--border);
+  }
+  .experience-stage .timeline-item:first-child { border-top: none; }
+
+  .recognition-zone { height: auto; }
+  .recognition-sticky { position: relative; top: auto; height: auto; display: block; }
+  .recognition-head { padding: 0 1.5rem; }
+  .recognition-stage { position: static; }
+  .event-row {
+    position: static;
+    transform: none !important;
+    overflow-y: visible;
+    padding: 2rem 0;
+    border-top: 1px solid var(--border);
+  }
+  .recognition-stage .event-row:first-child { border-top: none; }
 }

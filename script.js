@@ -193,4 +193,60 @@ document.addEventListener('DOMContentLoaded', () => {
     updateProgress();
     render(progress);
   })();
+
+  // ---- One-at-a-time horizontal carousel: pins a zone on screen and    ----
+  // ---- slides the current item out left as the next slides in from    ----
+  // ---- the right, driven by scroll progress through the pinned zone.  ----
+  // ---- Shared by Experience and Events & Talks — same mechanic, just  ----
+  // ---- different selectors and item counts.                          ----
+  function initSlideCarousel(zoneSelector, itemsSelector) {
+    const zone = document.querySelector(zoneSelector);
+    const items = Array.from(document.querySelectorAll(itemsSelector));
+    if (!zone || !items.length || prefersReducedMotion) return; // CSS handles the reduced-motion fallback
+
+    const N = items.length;
+    const T = 0.35; // fraction of one item's slot spent sliding; the rest is a resting plateau
+
+    function easeInOutCubic(t) {
+      return t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    }
+
+    function render(progress) {
+      // g spans 0..N-1 (not 0..N) so the last item finishes entering and
+      // simply rests at the end of the pin zone, instead of sliding itself
+      // back out with nothing behind it.
+      const g = progress * (N - 1);
+      items.forEach((el, i) => {
+        const d = g - i;
+        let tx;
+        if (d <= 0) {
+          const enterT = Math.max(0, Math.min(1, (d + T) / T));
+          tx = 100 * (1 - easeInOutCubic(enterT));
+        } else {
+          const exitT = Math.max(0, Math.min(1, (d - (1 - T)) / T));
+          tx = -100 * easeInOutCubic(exitT);
+        }
+        el.style.transform = `translateX(${tx}%)`;
+      });
+    }
+
+    let progress = 0;
+    function updateProgress() {
+      const rect = zone.getBoundingClientRect();
+      const scrollable = rect.height - window.innerHeight;
+      progress = scrollable <= 0 ? 0 : Math.max(0, Math.min(1, -rect.top / scrollable));
+    }
+
+    window.addEventListener('scroll', () => {
+      updateProgress();
+      render(progress);
+    }, { passive: true });
+    window.addEventListener('resize', () => render(progress), { passive: true });
+
+    updateProgress();
+    render(progress);
+  }
+
+  initSlideCarousel('.experience-zone', '.experience-stage .timeline-item');
+  initSlideCarousel('.recognition-zone', '.recognition-stage .event-row');
 });
